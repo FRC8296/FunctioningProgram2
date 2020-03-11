@@ -27,8 +27,9 @@ public class Climb extends Subsystem {
     // here. Call these from Commands.
 
     public RobotContainer container;
+    boolean setMax = false;
 
-    public Climb(RobotContainer container){
+    public Climb(RobotContainer container) {
         this.container = container;
     }
 
@@ -47,12 +48,22 @@ public class Climb extends Subsystem {
         climb.set(1);
     }
 
-    public void updateClimb(){
+    public void updateClimb() {
         if (container.controller.getAButton() && !container.controller.getYButton()) {
-            climb.set(1);
-          } else if (!container.controller.getAButton() && container.controller.getYButton()) {
-            climb.set(-1);
-          } else {
+            climb.set(0.5);
+            setMax = false;
+        } else if (!container.controller.getAButton() && container.controller.getYButton()) {
+            climb.set(-0.5);
+            setMax = false;
+        } else if (container.controller.getXButton()) {
+            setMax = true;
+            climb.set(0.5);
+        } else if (container.controller.getBButton()) {
+            setMax = false;
+            climb.set(0);
+        } else if (setMax) {
+            climb.set(0.5);
+        } else {
             climb.set(0);
         }
     }

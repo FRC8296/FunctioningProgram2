@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 //import edu.wpi.first.wpilibj.command.Subsystem;
@@ -34,11 +35,13 @@ public class DriveSubsystem extends Subsystem {
   public WPI_VictorSPX rightMaster = new WPI_VictorSPX(Constants.rightMasterPort); // ******** changed talon to victor*/
   public WPI_VictorSPX rightSlave = new WPI_VictorSPX(Constants.rightSlavePort); // ******** changed talon to victor*/
 
-  public DifferentialDrive drive = new DifferentialDrive(leftMaster, rightMaster);
+  public SpeedControllerGroup left = new SpeedControllerGroup(leftMaster, leftSlave);
+  public SpeedControllerGroup right = new SpeedControllerGroup(rightMaster, rightSlave);
+  public DifferentialDrive drive = new DifferentialDrive(left, right);
 
   public DriveSubsystem(RobotContainer container) {
-    leftSlave.follow(leftMaster);
-    rightSlave.follow(rightMaster);
+    //leftSlave.follow(leftMaster);
+    //rightSlave.follow(rightMaster);
     this.container = container;
   }
 
@@ -64,7 +67,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void curvatureDrive(){
-      drive.curvatureDrive(container.leftStickY, container.rightStickX, container.controller.getXButton());
+      drive.curvatureDrive(container.leftStickY, container.rightStickX, container.leftTrigger > 0.1);
   }
   
   public void init() {
