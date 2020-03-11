@@ -40,8 +40,6 @@ public class DriveSubsystem extends Subsystem {
   public DifferentialDrive drive = new DifferentialDrive(left, right);
 
   public DriveSubsystem(RobotContainer container) {
-    //leftSlave.follow(leftMaster);
-    //rightSlave.follow(rightMaster);
     this.container = container;
   }
 
